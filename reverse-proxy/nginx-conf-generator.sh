@@ -4,6 +4,12 @@
 # This file is run from the main reposity directory (not this one)
 # -- All URLs are relative to the repository directory (parent of this folder)
 
+if [ $(basename $PWD) != "cocos-concierge" ]; then
+	echo "Current directory = $PWD"
+	echo "Please run this file from the main repository directory."
+	exit 1
+fi
+
 PARENT_DIR="reverse-proxy"
 
 # Services config is a string array that contains the nginx.conf locations for services
