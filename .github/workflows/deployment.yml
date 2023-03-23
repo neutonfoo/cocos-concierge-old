@@ -4,10 +4,10 @@ on:
     branches:
       - main
 jobs:
-  deployment:
+  "Concierge-Deployment":
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: Cloning and setting up repository on Droplet
         uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.HOST }}
@@ -18,7 +18,7 @@ jobs:
             docker compose down
             cd ../
             rm -rf cocos-concierge
-            git clone ${{ github.repositoryUrl }}
+            git clone git@github.com:neutonfoo/cocos-concierge.git
             cd cocos-concierge
             ./reverse-proxy/nginx-conf-generator.sh
             docker compose up -d --build
