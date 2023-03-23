@@ -2,7 +2,7 @@
 
 # IMPORTANT
 # This file is run from the main reposity directory (not this one)
-# -- ALl URLs are relative to the repository directory (parent of this folder)
+# -- All URLs are relative to the repository directory (parent of this folder)
 
 PARENT_DIR="reverse-proxy"
 
@@ -61,11 +61,11 @@ http
 		listen 80;
 		listen [::]:80;
 		server_name localhost;
-
-        proxy_buffering off;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-Host \$host;
-        proxy_set_header X-Forwarded-Port \$server_port;
+		
+		proxy_buffering off;
+		proxy_set_header X-Real-IP \$remote_addr;
+		proxy_set_header X-Forwarded-Host \$host;
+		proxy_set_header X-Forwarded-Port \$server_port;
 		
 		resolver 127.0.0.11 valid=30s;
 
