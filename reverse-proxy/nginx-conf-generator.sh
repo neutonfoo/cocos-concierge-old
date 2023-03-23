@@ -27,22 +27,22 @@ DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
 
 # Loop through services
 for service_name in $SERVICES; do
-	repository=$(echo $SERVICES_JSON | jq -r ".[\"$service_name\"]")
+	# repository=$(echo $SERVICES_JSON | jq -r ".[\"$service_name\"]")
 
 	# Replace the / with an underscore
-	repo_folder_name=$(echo $repository | sed -r 's/\//_/g')
+	# repo_folder_name=$(echo $repository | sed -r 's/\//_/g')
 
 	# If the repository folder doesn't currently exist, clone it
-	if [ ! -d ../"$repo_folder_name" ]; then
-		git clone --depth 1 --branch main git@github.com:$repository.git ../"$repo_folder_name"
-	fi
+	# if [ ! -d ../"$repo_folder_name" ]; then
+	# 	git clone --depth 1 --branch main git@github.com:$repository.git ../"$repo_folder_name"
+	# fi
 
 	# Since it's a service, add to nginx.conf to enable routing
 	services_config+=(
-		"location ~ ^\/$service_name\/(.*)$
+		"location ~ ^\/$service_name\/?(.*)$
 		{
 			set \$target http://$service_name;
-			rewrite ^\/$service_name\/(.*)$ /\$1 break;
+			rewrite ^\/$service_name\/?(.*)$ /\$1 break;
 			proxy_pass \$target;
 		}"
 	)
@@ -67,21 +67,34 @@ http
 	{
 		listen 80;
 		listen [::]:80;
-		server_name localhost;
-		
+		server_name cocoshouse.xyz;
+
+		location /.well-known/acme-challenge/ {
+			root /var/www/certbot;
+		}
+
+		location / {
+			return 301 https://\$host\$request_uri;
+		}
+	}
+
+	server
+	{
+		listen 443 ssl;
+		listen [::]:443 ssl;
+		server_name cocoshouse.xyz;
+
+		ssl_certificate /etc/letsencrypt/live/cocoshouse.xyz/fullchain.pem;
+		ssl_certificate_key /etc/letsencrypt/live/cocoshouse.xyz/privkey.pem;
+		include /etc/letsencrypt/options-ssl-nginx.conf;
+		ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
 		proxy_buffering off;
 		proxy_set_header X-Real-IP \$remote_addr;
 		proxy_set_header X-Forwarded-Host \$host;
 		proxy_set_header X-Forwarded-Port \$server_port;
-		
-		resolver 127.0.0.11 valid=30s;
 
-		location ~ ^\/updater\/(.*)$
-		{
-			set \$target http://updater;
-			rewrite ^\/updater\/(.*)$ /\$1 break;
-			proxy_pass \$target;
-		}
+		resolver 127.0.0.11 valid=30s;
 
 		${services_config[@]}
 	}
