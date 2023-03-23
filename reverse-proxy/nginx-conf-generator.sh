@@ -41,10 +41,10 @@ for service_name in $SERVICES; do
 	)
 done
 
-for daemon_name in $DAEMONS; do
-	repository=$(echo $DAEMONS_JSON | jq -r ".$daemon_name")
-	echo $repository
-done
+# for daemon_name in $DAEMONS; do
+# 	repository=$(echo $DAEMONS_JSON | jq -r ".$daemon_name")
+# 	echo $repository
+# done
 
 cat << EOF > ./"$PARENT_DIR"/nginx.conf
 worker_processes 1;
