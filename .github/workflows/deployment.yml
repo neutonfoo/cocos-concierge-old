@@ -7,17 +7,21 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: whoami
-
+          script: |
+            cd development/cocos-concierge
+            docker compose down
+            cd ../
+            rm -rf cocos-concierge
+            git clone ${{ github.repositoryUrl }}
+            cd cocos-concierge
+            ./reverse-proxy/nginx-conf-generator.sh
+            docker compose up -d --build
 
 # name: GitHub Actions Demo
 # run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
