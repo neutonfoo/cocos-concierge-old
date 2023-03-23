@@ -1,0 +1,8 @@
+{
+    "services":{
+        "web": "neutonfoo/test-web"
+    },
+    "daemons": {
+
+    }
+}

@@ -1,0 +1,34 @@
+worker_processes 1;
+
+events
+{
+	worker_connections 1024;
+}
+
+http
+{
+	server
+	{
+		listen 80;
+		listen [::]:80;
+		server_name localhost;
+
+        proxy_buffering off;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
+		
+		resolver 127.0.0.11 valid=30s;
+
+		# -- This code uses regex to match with services
+        # Depreciate in favor of dynamically generated nginx.conf
+		location ~ ^\/([a-z0-9-_]+)\/(.*)$
+		{
+			set \$target http://\$1;
+
+			rewrite ^\/([a-z0-9-_]+)\/(.*)$ /\$2 break;
+			proxy_pass \$target;
+		}
+		
+	}
+}

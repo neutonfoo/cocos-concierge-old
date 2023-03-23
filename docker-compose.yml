@@ -1,0 +1,19 @@
+services:
+  reverse-proxy:
+    build:
+      context: reverse-proxy
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - cocos-network
+  updater:
+    build:
+      context: .
+      dockerfile: updater/Dockerfile
+    restart: always
+    networks:
+      - cocos-network
+networks:
+  cocos-network:
+    external: true
