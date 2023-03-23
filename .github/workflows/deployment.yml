@@ -14,10 +14,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           script: |
-            cd development/cocos-concierge
-            docker compose down
-            cd ../
-            rm -rf cocos-concierge
+            # Stop and remove repo if it exists
+            if [ -f /tmp/test.txt ];then echo cd development/cocos-concierge; docker compose down; cd ../; rm -rf cocos-concierge; fi
             git clone git@github.com:neutonfoo/cocos-concierge.git
             cd cocos-concierge
             ./reverse-proxy/nginx-conf-generator.sh
