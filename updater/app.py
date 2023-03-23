@@ -1,5 +1,5 @@
 from flask import Flask, make_response
-import os
+import subprocess
 import json
 
 app = Flask(__name__)
@@ -13,7 +13,7 @@ def home():
 
 @app.route("/update/<service_name>")
 def update(service_name: str):
-    os.system(f"bash update.sh {service_name}")
+    subprocess.run(f"bash update.sh {service_name}")
 
     response = make_response()
     response.status_code = 200
