@@ -7,6 +7,10 @@ app = Flask(__name__)
 projects_file = open('../projects.json')
 projects = json.load(projects_file)
 
+@app.route("/")
+def home():
+    return 'Welcome to the <code>updater</code> microservice.'
+
 @app.route("/update/<service_name>")
 def update(service_name: str):
     os.system(f"bash update.sh {service_name}")

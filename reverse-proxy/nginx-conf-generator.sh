@@ -32,6 +32,7 @@ for service_name in $SERVICES; do
 	# Replace the / with an underscore
 	repo_folder_name=$(echo $repository | sed -r 's/\//_/g')
 
+	# If the repository folder doesn't currently exist, clone it
 	if [ ! -d ../"$repo_folder_name" ]; then
 		git clone --depth 1 --branch main git@github.com:$repository.git ../"$repo_folder_name"
 	fi
