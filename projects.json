@@ -1,6 +1,6 @@
 {
     "services":{
-        "web": "neutonfoo/test-web"
+        "test-web": "neutonfoo/test-web"
     },
     "daemons": {
         

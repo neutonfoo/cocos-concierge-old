@@ -21,7 +21,7 @@ DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
 
 # Loop through services
 for service_name in $SERVICES; do
-	repository=$(echo $SERVICES_JSON | jq -r ".$service_name")
+	repository=$(echo $SERVICES_JSON | jq -r ".[\"$service_name\"]")
 
 	# Replace the / with an underscore
 	repo_folder_name=$(echo $repository | sed -r 's/\//_/g')
@@ -35,7 +35,7 @@ for service_name in $SERVICES; do
 		"location ~ ^\/$service_name\/(.*)$
 		{
 			set \$target http://$service_name;
-			rewrite ^\/$service_name\/(.*)$ /\$2 break;
+			rewrite ^\/$service_name\/(.*)$ /\$1 break;
 			proxy_pass \$target;
 		}"
 	)
@@ -72,7 +72,7 @@ http
 		location ~ ^\/updater\/(.*)$
 		{
 			set \$target http://updater;
-			rewrite ^\/updater\/(.*)$ /\$2 break;
+			rewrite ^\/updater\/(.*)$ /\$1 break;
 			proxy_pass \$target;
 		}
 
