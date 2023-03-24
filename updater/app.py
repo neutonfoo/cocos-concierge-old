@@ -20,8 +20,6 @@ def update_service(app_type: str, service_name: str):
     if app_type not in ["service", "daemon"]:
         response.status_code = 500
     else:
-        print(projects)
-
         if (app_type == "service" and service_name in projects["services"]) or (
             app_type == "daemon" and service_name in projects["daemon"]
         ):
