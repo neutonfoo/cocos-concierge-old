@@ -96,6 +96,10 @@ http
 
 		resolver 127.0.0.11 valid=30s;
 
+		location = / {
+			return 301 https://neutonfoo.com/ break;
+		}
+
 		${services_config[@]}
 	}
 }

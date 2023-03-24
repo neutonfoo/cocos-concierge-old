@@ -21,7 +21,7 @@ jobs:
 
             # Stop and remove repo if it exists
             if [ -d cocos-concierge ];then cd cocos-concierge; docker compose down; cd ../; rm -rf cocos-concierge; fi
-            git clone git@github.com:neutonfoo/cocos-concierge.git
+            git clone --depth 1 --branch main git@github.com:neutonfoo/cocos-concierge.git
             cd cocos-concierge
 
             # Start the Updater service
