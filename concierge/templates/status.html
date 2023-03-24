@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conceirge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <p>Welcome to the <code>concierge</code> microservice.</p>
+    <table>
+        <tbody>
+            {% for app_name, log in logs.items() %}   
+
+            <tr>
+                <th>{{ app_name|safe }}</th>
+            </tr>
+            <tr>
+                <td>
+                    <textarea class="deploy-log" readonly>{{ log|safe }}</textarea>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+        
+</body>
+</html>

@@ -27,16 +27,6 @@ DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
 
 # Loop through services
 for service_name in $SERVICES; do
-	# repository=$(echo $SERVICES_JSON | jq -r ".[\"$service_name\"]")
-
-	# Replace the / with an underscore
-	# repo_folder_name=$(echo $repository | sed -r 's/\//_/g')
-
-	# If the repository folder doesn't currently exist, clone it
-	# if [ ! -d ../"$repo_folder_name" ]; then
-	# 	git clone --depth 1 --branch main git@github.com:$repository.git ../"$repo_folder_name"
-	# fi
-
 	# Since it's a service, add to nginx.conf to enable routing
 	services_config+=(
 		"location ~ ^\/$service_name\/?(.*)$
@@ -44,14 +34,11 @@ for service_name in $SERVICES; do
 			set \$target http://$service_name;
 			rewrite ^\/$service_name\/?(.*)$ /\$1 break;
 			proxy_pass \$target;
-		}"
+		}
+
+		"
 	)
 done
-
-# for daemon_name in $DAEMONS; do
-# 	repository=$(echo $DAEMONS_JSON | jq -r ".$daemon_name")
-# 	echo $repository
-# done
 
 cat << EOF > ./"$PARENT_DIR"/nginx.conf
 worker_processes 1;
@@ -73,7 +60,8 @@ http
 			root /var/www/certbot;
 		}
 
-		location / {
+		location /
+		{
 			return 301 https://\$host\$request_uri;
 		}
 	}
@@ -96,8 +84,9 @@ http
 
 		resolver 127.0.0.11 valid=30s;
 
-		location = / {
-			return 301 https://neutonfoo.com/ break;
+		location = /
+		{
+			return 301 https://neutonfoo.com/;
 		}
 
 		${services_config[@]}

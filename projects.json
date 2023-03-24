@@ -1,8 +1,7 @@
 {
-    "services":{
+    "daemons": {},
+    "services": {
+        "ice-bear-map": "elaineduh/ice-bear-map",
         "test-web": "neutonfoo/test-web"
-    },
-    "daemons": {
-        
     }
 }
