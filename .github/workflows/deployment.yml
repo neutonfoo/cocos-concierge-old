@@ -16,6 +16,10 @@ jobs:
           script: |
             cd development
 
+            # Kill the previous Updater nohup service
+            # kill -9 `cat /root/updater_pid.txt`
+            kill -9 `pgrep python`
+
             # Stop and remove repo if it exists
             if [ -d cocos-concierge ];then cd cocos-concierge; docker compose down; cd ../; rm -rf cocos-concierge; fi
             git clone git@github.com:neutonfoo/cocos-concierge.git
