@@ -2,6 +2,8 @@
 
 set -ex
 
+PROJECTS_ROOT="/root/development"
+
 app_name=$1
 app_repository=$2
 app_branch=$3
@@ -17,7 +19,7 @@ fi
 
 # Continue with deployment
  
-cd ../../
+cd $PROJECTS_ROOT
 
 if [[ -d $app_name ]]; then
     docker compose -f "$app_name/docker-compose.yml" down
