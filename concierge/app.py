@@ -14,31 +14,69 @@ projects = json.load(projects_file)
 
 @app.route("/")
 def home():
-    services = projects["services"].keys()
-    daemons = projects["daemons"].keys()
-
-    return render_template("status.html", services=services, daemons=daemons)
+    return render_template("status.html", projects=projects)
 
 
 @app.route("/logs")
 def logs():
-    logs = {"services": {}, "daemons": {}}
+    logs = {}
 
-    for app_name in projects["services"]:
-        log_filename = f"logs/{app_name}.txt"
+    for app_type in ["services", "daemons"]:
+        for app_name in projects[app_type]:
+            deploy_log_filename = f"logs/{app_name}.deploy.txt"
 
-        if os.path.isfile(log_filename):
-            f = open(log_filename, "r")
-            logs["services"][f"{app_name}"] = f.read()
+            logs[app_name] = {
+                "deploy": "",
+                "app": subprocess.check_output(
+                    ["bash", "scripts/app_log.sh", app_name],
+                    encoding="utf8",
+                ),
+            }
 
-    for app_name in projects["daemons"]:
-        log_filename = f"logs/{app_name}.txt"
-
-        if os.path.isfile(log_filename):
-            f = open(log_filename, "r")
-            logs["daemons"][f"{app_name}"] = f.read()
+            if os.path.isfile(deploy_log_filename):
+                f = open(deploy_log_filename, "r")
+                logs[app_name]["deploy"] = f.read()
 
     return logs
+
+
+@app.route("/infra_logs")
+def infra_logs():
+    concierge_app_log_filename = f"logs/concierge.app.txt"
+
+    logs = {
+        "concierge": "",
+        "reverse-proxy": subprocess.check_output(
+            ["bash", "scripts/app_log.sh", "cocos-concierge"], encoding="utf8"
+        ),
+    }
+
+    concierge_app_log_line_limit = 700
+
+    if os.path.isfile(concierge_app_log_filename):
+        f = open(concierge_app_log_filename, "r")
+
+        concierge_log_lines = f.readlines()
+        f.seek(0)
+        num_lines = len(concierge_log_lines)
+
+        # If number of lines exceeds 700, clear file and copy the last 700 lines
+        if num_lines > concierge_app_log_line_limit:
+            f.close()
+            f2 = open(concierge_app_log_filename, "w")
+            f2.writelines(concierge_log_lines[-concierge_app_log_line_limit:])
+            f2.close()
+            f = open(concierge_app_log_filename, "r")
+
+        logs["concierge"] = f.read()
+        f.close()
+
+    return logs
+
+
+@app.route("/infra")
+def infra_status():
+    return render_template("infra.html", projects=projects)
 
 
 @app.route("/hook/<action>/<app_type>/<app_name>")
@@ -57,7 +95,7 @@ def hook(action: str, app_type: str, app_name: str, branch_name="main"):
         return f"App <code>{app_name}</code> does not exist in projects.json."
 
     if action == "update":
-        log = open(f"logs/{app_name}.txt", "w")
+        log = open(f"logs/{app_name}.deploy.txt", "w")
         subprocess.Popen(
             ["bash", "scripts/update.sh", app_name, app_repo, branch_name],
             stdout=log,

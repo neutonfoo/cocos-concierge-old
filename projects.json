@@ -1,8 +1,10 @@
 {
-    "daemons": {},
-    "services": {
-        "ice-bears-map": "elaineduh/ice-bear-map",
-        "test-web": "neutonfoo/test-web",
-        "ice-bears-table": "neutonfoo/ice-bears-table"
-    }
+  "daemons": {
+    "minabot-discord": "neutonfoo/minabot-discord"
+  },
+  "services": {
+    "ice-bears-map": "elaineduh/ice-bear-map",
+    "test-web": "neutonfoo/test-web",
+    "ice-bears-table": "neutonfoo/ice-bears-table"
+  }
 }

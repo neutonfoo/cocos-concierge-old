@@ -21,6 +21,11 @@ fi
  
 cd $PROJECTS_ROOT
 
+# Create .env file if not exist
+if [[ ! -d ".env/$app_name.env" ]]; then
+    touch ".env/$app_name.env"
+fi
+
 if [[ -d "$app_name" ]]; then
     docker compose -f "$app_name/docker-compose.yml" down
     rm -rf "$app_name"

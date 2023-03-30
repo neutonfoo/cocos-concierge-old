@@ -32,7 +32,7 @@ jobs:
             python3 -m venv env
             source env/bin/activate
             pip install -r requirements.txt
-            nohup python app.py >/dev/null 2>&1 &
+            nohup python app.py &>logs/concierge.app.txt &
             cd ../
 
             # Start reverse-proxy and certbot
