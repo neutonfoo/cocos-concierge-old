@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Conceirge</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
@@ -32,18 +32,22 @@
         <div class="col-xs-12 mb-3">
           <div class="card" id="{{ app_name }}">
             <div class="card-header">
+              {% if app_type == "services" %}
               <a
                 href="https://cocoshouse.xyz/{{ app_name }}"
                 class="link-primary"
                 target="_blank"
                 >{{ app_name }}</a
               >
+              {% else %} {{ app_name }} {% endif %}
             </div>
             <div class="card-body">
               <div class="row">
                 {% for log_type in ['app', 'deploy'] %}
                 <div class="col-12 col-md-6">
-                  <h6 class="mb-2 mt-2 mt-md-0">{{ log_type[0]|upper }}{{ log_type[1:] }} log</h6>
+                  <h6 class="mb-2 mt-2 mt-md-0">
+                    {{ log_type[0]|upper }}{{ log_type[1:] }} log
+                  </h6>
                   <textarea
                     class="form-control {{ log_type }}-log"
                     id="{{ app_name }}-{{ log_type }}-log"
@@ -56,7 +60,7 @@
             </div>
             <div class="card-footer text-body-secondary">
               <a
-                href="https://github.com/{{ projects['services'][app_name] }}"
+                href="https://github.com/{{ projects[app_type][app_name] }}"
                 class="card-link link-secondary"
                 target="_blank"
               >
@@ -71,13 +75,17 @@
       <footer
         class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
       >
-        <p class="col-md-4 mb-0 text-body-secondary">🐄s are friends, not food.</p>
+        <p class="col-md-4 mb-0 text-body-secondary">
+          🐄s are friends, not food.
+        </p>
         <ul class="nav col-md-4 justify-content-end">
           <li class="nav-item">
             <a href="/" class="nav-link px-2 text-body-secondary">Status</a>
           </li>
           <li class="nav-item">
-            <a href="/infra" class="nav-link px-2 text-body-secondary">Infra Status</a>
+            <a href="/infra" class="nav-link px-2 text-body-secondary"
+              >Infra Status</a
+            >
           </li>
         </ul>
       </footer>

@@ -88,8 +88,8 @@ def hook(action: str, app_type: str, app_name: str, branch_name="main"):
 
     if app_type == "service" and app_name in projects["services"]:
         app_repo = projects["services"][app_name]
-    elif app_type == "daemon" and app_name in projects["daemon"]:
-        app_repo = projects["daemon"][app_name]
+    elif app_type == "daemon" and app_name in projects["daemons"]:
+        app_repo = projects["daemons"][app_name]
 
     if not app_repo:
         return f"App <code>{app_name}</code> does not exist in projects.json."
