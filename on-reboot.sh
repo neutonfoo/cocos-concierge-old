@@ -15,7 +15,7 @@ deactivate
 cd ../
 
 # Start reverse proxy + certbot
-docker compose up --build -d
+docker compose up -d
 
 # Start all services and daemons
 PROJECTS_JSON=$(cat "projects.json")
@@ -27,9 +27,9 @@ DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
 cd $PROJECTS_ROOT
 
 for daemon in $DAEMONS; do
-    docker compose -f "$daemon/docker-compose.yml" up -d --build --remove-orphans
+    docker compose -f "$daemon/docker-compose.yml" up -d --remove-orphans
 done
 
 for service in $SERVICES; do
-    docker compose -f "$service/docker-compose.yml" up -d --build --remove-orphans
+    docker compose -f "$service/docker-compose.yml" up -d --remove-orphans
 done

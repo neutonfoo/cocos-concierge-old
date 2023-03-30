@@ -14,16 +14,31 @@ projects = json.load(projects_file)
 
 @app.route("/")
 def home():
-    logs = {}
+    services = projects["services"].keys()
+    daemons = projects["daemons"].keys()
+
+    return render_template("status.html", services=services, daemons=daemons)
+
+
+@app.route("/logs")
+def logs():
+    logs = {"services": {}, "daemons": {}}
 
     for app_name in projects["services"]:
         log_filename = f"logs/{app_name}.txt"
 
         if os.path.isfile(log_filename):
             f = open(log_filename, "r")
-            logs[app_name] = f.read()
+            logs["services"][f"{app_name}"] = f.read()
 
-    return render_template("status.html", logs=logs)
+    for app_name in projects["daemons"]:
+        log_filename = f"logs/{app_name}.txt"
+
+        if os.path.isfile(log_filename):
+            f = open(log_filename, "r")
+            logs["daemons"][f"{app_name}"] = f.read()
+
+    return logs
 
 
 @app.route("/hook/<action>/<app_type>/<app_name>")

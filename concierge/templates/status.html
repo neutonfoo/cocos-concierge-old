@@ -1,28 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Conceirge</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-</head>
-<body>
-    <p>Welcome to the <code>concierge</code> microservice.</p>
-    <table>
-        <tbody>
-            {% for app_name, log in logs.items() %}   
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+    />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const logs = {
+          services: {},
+          daemons: {},
+        };
 
-            <tr>
-                <th>{{ app_name|safe }}</th>
-            </tr>
-            <tr>
-                <td>
-                    <textarea class="deploy-log" readonly>{{ log|safe }}</textarea>
-                </td>
-            </tr>
-            {% endfor %}
+        const refreshLogs = async () => {
+          const rawLogs = await (await fetch("/logs")).json();
 
-        </tbody>
-    </table>
-        
-</body>
+          for (const appName in rawLogs["services"]) {
+            if (logs.services[appName] != rawLogs["services"][appName]) {
+              logs.services[appName] = rawLogs["services"][appName];
+
+              const logTextarea = document.querySelector(`#${appName}_log`);
+
+              logTextarea.innerHTML = logs["services"][appName];
+              logTextarea.scrollTop = logTextarea.scrollHeight;
+            }
+          }
+
+          for (const appName in rawLogs["daemons"]) {
+            if (logs.services[appName] != rawLogs["daemons"][appName]) {
+              logs.services[appName] = rawLogs["daemons"][appName];
+
+              const logTextarea = document.querySelector(`#${appName}_log`);
+
+              logTextarea.innerHTML = logs["daemons"][appName];
+              logTextarea.scrollTop = logTextarea.scrollHeight;
+            }
+          }
+        };
+
+        refreshLogs();
+        setInterval(refreshLogs, 2000);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="container mt-2">
+      <h3>Welcome to 🐮's <code>concierge</code> microservice.</h3>
+      <hr />
+      <h4>Services</h4>
+      <div class="row">
+        {% for app_name in services %}
+        <div class="col-xs-12 col-xxl-6 mb-4">
+          <div class="card">
+            <div class="card-header">
+              <a
+                href="https://cocoshouse.xyz/{{ app_name }}"
+                class="link-primary"
+                target="_blank"
+                >{{ app_name }}</a
+              >
+            </div>
+            <div class="card-body">
+              <textarea
+                class="form-control deploy-log"
+                id="{{ app_name }}_log"
+                rows="10"
+                readonly
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <h4>Daemons</h4>
+      <div class="row">
+        {% for app_name in daemons %}
+        <div class="col-xs-12 col-xxl-6 mb-4">
+          <div class="card">
+            <div class="card-header">{{ app_name }}</div>
+            <div class="card-body">
+              <textarea
+                class="form-control deploy-log"
+                id="{{ app_name }}_log"
+                rows="10"
+                readonly
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
