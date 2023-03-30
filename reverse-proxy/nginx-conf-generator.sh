@@ -29,13 +29,13 @@ DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
 for service_name in $SERVICES; do
 	# Since it's a service, add to nginx.conf to enable routing
 	services_config+=(
-		"location ~ ^\/$service_name\/?(.*)$
+		"
+		location ~ ^\/$service_name\/?(.*)$
 		{
 			set \$target http://$service_name;
 			rewrite ^\/$service_name\/?(.*)$ /\$1 break;
 			proxy_pass \$target;
 		}
-
 		"
 	)
 done

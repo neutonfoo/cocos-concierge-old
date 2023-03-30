@@ -80,6 +80,7 @@ def infra_status():
 
 
 @app.route("/hook/<action>/<app_type>/<app_name>")
+@app.route("/hook/<action>/<app_type>/<app_name>")
 @app.route("/hook/<action>/<app_type>/<app_name>/")
 @app.route("/hook/<action>/<app_type>/<app_name>/<branch_name>")
 @app.route("/hook/<action>/<app_type>/<app_name>/<branch_name>/")
@@ -102,6 +103,22 @@ def hook(action: str, app_type: str, app_name: str, branch_name="main"):
             stderr=log,
         )
         return render_template("hook.html")
+    elif action == "restart":
+        log = open(f"logs/{app_name}.deploy.txt", "w")
+        subprocess.Popen(
+            ["bash", "scripts/restart.sh", app_name, "0"],
+            stdout=log,
+            stderr=log,
+        )
+        return '', 200
+    elif action == "rebuild":
+        log = open(f"logs/{app_name}.deploy.txt", "w")
+        subprocess.Popen(
+            ["bash", "scripts/restart.sh", app_name, "1"],
+            stdout=log,
+            stderr=log,
+        )
+        return '', 200
 
     return "Invalid action."
 

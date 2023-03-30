@@ -29,6 +29,21 @@ document.addEventListener("DOMContentLoaded", function () {
     isProcessingLogs = false;
   };
 
+  // Add onClicks to Restart/Rebuild
+  for (const action of ["restart", "rebuild"]) {
+    const actionButtons = document.querySelectorAll(`.${action}-button`);
+
+    for (const actionButton of actionButtons) {
+      actionButton.addEventListener("click", (e) => {
+        const button = e.target;
+        const appType = button.dataset.apptype;
+        const appName = button.dataset.appname;
+
+        fetch(`/hook/${action}/${appType}/${appName}/`);
+      });
+    }
+  }
+
   refreshLogs();
   setInterval(refreshLogs, 2000);
 });

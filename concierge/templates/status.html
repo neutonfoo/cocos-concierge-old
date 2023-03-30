@@ -64,8 +64,13 @@
                 class="card-link link-secondary"
                 target="_blank"
               >
-                GitHub</a
-              >
+                GitHub</a>
+              <button type="button" class="card-link btn btn-sm btn-warning restart-button" data-apptype="{{ app_type[:-1] }}" data-appname="{{ app_name }}">
+                Restart
+              </button>
+              <button type="button" class="card-link btn btn-sm btn-danger rebuild-button" data-apptype="{{ app_type[:-1] }}" data-appname="{{ app_name }}">
+                Rebuild
+              </button>
             </div>
           </div>
         </div>
