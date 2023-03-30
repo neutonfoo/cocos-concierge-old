@@ -27,6 +27,6 @@ if [[ -d "$app_name" ]]; then
 fi
 
 git clone --depth 1 --branch "$app_branch" "git@github.com:$app_repository.git" "$app_name"
-docker compose -f "$app_name/docker-compose.yml" up -d --build
+docker compose -f "$app_name/docker-compose.yml" up -d --build --remove-orphans
 
 exit 0

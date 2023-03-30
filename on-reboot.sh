@@ -15,7 +15,7 @@ deactivate
 cd ../
 
 # Start reverse proxy + certbot
-docker compose up -d
+docker compose up -d --remove-orphans
 
 # Start all services and daemons
 PROJECTS_JSON=$(cat "projects.json")
