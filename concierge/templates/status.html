@@ -1,104 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Conceirge</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/main.css') }}"
-    />
-    <script src="{{ url_for('static', filename='js/status.js') }}"></script>
-  </head>
-  <body>
-    <div class="container mt-3">
-      <h3>🐮's <code>concierge</code> microservice.</h3>
-      <hr />
-      {% for app_type in ['services', 'daemons'] %} {% for app_name in
-      projects[app_type].keys()|sort() %}
-      <a class="btn btn-primary btn-sm" href="#{{ app_name }}"
-        >#{{ app_name }}</a
-      >
-      {% endfor %} {% endfor %} {% for app_type in ['services', 'daemons'] %}
-      <h4 class="my-3">{{ app_type[0]|upper }}{{ app_type[1:] }}</h4>
-      <div class="row">
-        {% for app_name in projects[app_type].keys()|sort() %}
-        <div class="col-xs-12 mb-3">
-          <div class="card" id="{{ app_name }}">
-            <div class="card-header">
-              {% if app_type == "services" %}
-              <a
-                href="https://cocoshouse.xyz/{{ app_name }}"
-                class="link-primary"
-                target="_blank"
-                >{{ app_name }}</a
-              >
-              {% else %} {{ app_name }} {% endif %}
-            </div>
-            <div class="card-body">
-              <div class="row">
-                {% for log_type in ['app', 'deploy'] %}
-                <div class="col-12 col-md-6">
-                  <h6 class="mb-2 mt-2 mt-md-0">
-                    {{ log_type[0]|upper }}{{ log_type[1:] }} log
-                  </h6>
-                  <textarea
-                    class="form-control {{ log_type }}-log"
-                    id="{{ app_name }}-{{ log_type }}-log"
-                    rows="10"
-                    readonly
-                  ></textarea>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-            <div class="card-footer text-body-secondary">
-              <a
-                href="https://github.com/{{ projects[app_type][app_name] }}"
-                class="card-link link-secondary"
-                target="_blank"
-              >
-                GitHub</a>
-              <button type="button" class="card-link btn btn-sm btn-warning restart-button" data-apptype="{{ app_type[:-1] }}" data-appname="{{ app_name }}">
-                Restart
-              </button>
-              <button type="button" class="card-link btn btn-sm btn-danger rebuild-button" data-apptype="{{ app_type[:-1] }}" data-appname="{{ app_name }}">
-                Rebuild
-              </button>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
+{% extends 'base.html' %} {% block scripts %}
+<script src="{{ url_for('static', filename='js/status.js') }}"></script>
+{% endblock %} {% block body %} {% for app_type in ['services', 'daemons'] %} {%
+for app_name in projects[app_type].keys()|sort() %}
+<a class="btn btn-primary btn-sm" href="#{{ app_name }}">#{{ app_name }}</a>
+{% endfor %} {% endfor %} {% for app_type in ['services', 'daemons'] %}
+<h4 class="my-3">{{ app_type[0]|upper }}{{ app_type[1:] }}</h4>
+<div class="row">
+  {% for app_name in projects[app_type].keys()|sort() %}
+  <div class="col-xs-12 mb-3">
+    <div class="card" id="{{ app_name }}">
+      <div class="card-header">
+        {% if app_type == "services" %}
+        <a
+          href="https://cocoshouse.xyz/{{ app_name }}"
+          class="link-primary"
+          target="_blank"
+          >{{ app_name }}</a
+        >
+        {% else %} {{ app_name }} {% endif %}
       </div>
-      {% endfor %}
-      <footer
-        class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
-      >
-        <p class="col-md-4 mb-0 text-body-secondary">
-          🐄s are friends, not food.
-        </p>
-        <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item">
-            <a href="/" class="nav-link px-2 text-body-secondary">Status</a>
-          </li>
-          <li class="nav-item">
-            <a href="/infra" class="nav-link px-2 text-body-secondary"
-              >Infra Status</a
-            >
-          </li>
-        </ul>
-      </footer>
+      <div class="card-body">
+        <div class="row">
+          {% for log_type in ['app', 'deploy'] %}
+          <div class="col-12 col-md-6">
+            <h6 class="mb-2 mt-2 mt-md-0">
+              {{ log_type[0]|upper }}{{ log_type[1:] }} log
+            </h6>
+            <textarea
+              class="form-control {{ log_type }}-log"
+              id="{{ app_name }}-{{ log_type }}-log"
+              rows="10"
+              readonly
+            ></textarea>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="card-footer text-body-secondary">
+        <a
+          href="https://github.com/{{ projects[app_type][app_name] }}"
+          class="card-link link-secondary"
+          target="_blank"
+        >
+          GitHub</a
+        >
+        <button
+          type="button"
+          class="card-link btn btn-sm btn-success restart-button"
+          data-apptype="{{ app_type[:-1] }}"
+          data-appname="{{ app_name }}"
+        >
+          Restart
+        </button>
+        <button
+          type="button"
+          class="card-link btn btn-sm btn-warning rebuild-button"
+          data-apptype="{{ app_type[:-1] }}"
+          data-appname="{{ app_name }}"
+        >
+          Rebuild
+        </button>
+        <button
+          type="button"
+          class="card-link btn btn-sm btn-danger powerdown-button"
+          data-apptype="{{ app_type[:-1] }}"
+          data-appname="{{ app_name }}"
+        >
+          Power Down
+        </button>
+      </div>
     </div>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
+  </div>
+  {% endfor %}
+</div>
+{% endfor %} {% endblock %}

@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   // Add onClicks to Restart/Rebuild
-  for (const action of ["restart", "rebuild"]) {
+  for (const action of ["restart", "rebuild", "powerdown"]) {
     const actionButtons = document.querySelectorAll(`.${action}-button`);
 
     for (const actionButton of actionButtons) {

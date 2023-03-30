@@ -5,7 +5,6 @@ import subprocess
 import os
 import sys
 
-
 app = Flask(__name__)
 
 projects_file = open("../projects.json")
@@ -110,7 +109,7 @@ def hook(action: str, app_type: str, app_name: str, branch_name="main"):
             stdout=log,
             stderr=log,
         )
-        return '', 200
+        return "", 200
     elif action == "rebuild":
         log = open(f"logs/{app_name}.deploy.txt", "w")
         subprocess.Popen(
@@ -118,7 +117,15 @@ def hook(action: str, app_type: str, app_name: str, branch_name="main"):
             stdout=log,
             stderr=log,
         )
-        return '', 200
+        return "", 200
+    elif action == "powerdown":
+        log = open(f"logs/{app_name}.deploy.txt", "w")
+        subprocess.Popen(
+            ["bash", "scripts/restart.sh", app_name, "-1"],
+            stdout=log,
+            stderr=log,
+        )
+        return "", 200
 
     return "Invalid action."
 
