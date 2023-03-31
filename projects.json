@@ -1,6 +1,6 @@
 {
   "daemons": {
-    "minabot-discord": "neutonfoo/minabot-discord"
+    "mina-bot-discord": "neutonfoo/mina-bot-discord"
   },
   "services": {
     "ice-bears-map": "elaineduh/ice-bear-map",
