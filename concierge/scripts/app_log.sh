@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -e
 
 PROJECTS_ROOT="/root/development"

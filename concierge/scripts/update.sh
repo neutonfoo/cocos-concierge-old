@@ -18,13 +18,20 @@ if [[ "$remote_branch_exists" -eq "0" ]]; then
 fi
 
 # Continue with deployment
- 
+
 cd $PROJECTS_ROOT
 
 # Create .env file if not exist
 if [[ ! -d ".env/$app_name.env" ]]; then
     touch ".env/$app_name.env"
 fi
+
+# Load env file, in braces to prevent printing to log.
+{
+    set -o allexport
+    source ".env/$app_name.env"
+    set +o allexport
+} 2>/dev/null
 
 if [[ -d "$app_name" ]]; then
     docker compose -f "$app_name/docker-compose.yml" down

@@ -22,9 +22,6 @@ PROJECTS_JSON=$(cat "projects.json")
 SERVICES_JSON=$(echo $PROJECTS_JSON | jq -r '.services')
 SERVICES=$(echo $PROJECTS_JSON | jq -r '.services|keys[]')
 
-DAEMONS_JSON=$(echo $PROJECTS_JSON | jq -r '.daemons')
-DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
-
 # Loop through services
 for service_name in $SERVICES; do
 	# Since it's a service, add to nginx.conf to enable routing
@@ -40,7 +37,7 @@ for service_name in $SERVICES; do
 	)
 done
 
-cat << EOF > ./"$PARENT_DIR"/nginx.conf
+cat <<EOF >./"$PARENT_DIR"/nginx.conf
 worker_processes 1;
 
 events
