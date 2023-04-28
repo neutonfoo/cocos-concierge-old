@@ -35,5 +35,5 @@ jobs:
             cd ../
 
             # Start reverse-proxy and certbot
-            ./reverse-proxy/nginx-conf-generator.sh
+            # ./reverse-proxy/nginx-conf-generator.sh
             docker compose up -d --build --force-recreate
