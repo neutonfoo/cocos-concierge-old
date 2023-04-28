@@ -1,12 +1,12 @@
 {
   "daemons": {
     "mina-bot-discord": "neutonfoo/mina-bot-discord",
-    "ice-bear-discord": "neutonfoo/ice-bear-discord"
+    "ice-bear-discord": "neutonfoo/ice-bear-discord",
+    "resy-checker": "neutonfoo/resy-checker"
   },
   "services": {
     "ice-bears-map": "elaineduh/ice-bear-map",
     "test-web": "neutonfoo/test-web",
-    "ice-bears-table": "neutonfoo/ice-bears-table",
-    "resy-checker": "neutonfoo/resy-checker"
+    "ice-bears-table": "neutonfoo/ice-bears-table"
   }
 }
