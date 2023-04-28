@@ -1,5 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, session
 from ansi2html import Ansi2HTMLConverter
+
 import json
 import subprocess
 import os
@@ -11,10 +12,17 @@ conv = Ansi2HTMLConverter()
 projects_file = open("../projects.json")
 projects = json.load(projects_file)
 
-
 @app.route("/")
 def home():
+    if "logged_in" not in session:
+        return redirect("https://neutonfoo.com")
+
     return render_template("status.html", projects=projects)
+
+@app.route("/visit")
+def visit():
+    session["logged_in"] = True
+    return redirect("/")
 
 
 @app.route("/logs")
@@ -135,8 +143,10 @@ def hook(action: str, app_type: str, app_name: str, branch_name="main"):
 def poweroff():
     sys.exit()
 
-
 if __name__ == "__main__":
+    app.secret_key = 'mynameiscoco'
+    app.config['SESSION_TYPE'] = 'filesystem'
+
     app.run(
         debug=True,
         port=3030,
