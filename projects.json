@@ -6,6 +6,7 @@
   "services": {
     "ice-bears-map": "elaineduh/ice-bear-map",
     "test-web": "neutonfoo/test-web",
-    "ice-bears-table": "neutonfoo/ice-bears-table"
+    "ice-bears-table": "neutonfoo/ice-bears-table",
+    "resy-checker": "neutonfoo/resy-checker"
   }
 }
