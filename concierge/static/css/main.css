@@ -3,8 +3,10 @@
     padding: 0;
 }
 
-textarea.app-log,
-textarea.deploy-log {
+div.app-log,
+div.deploy-log {
     font-size: 10pt;
     font-family: monospace;
+    overflow-y: scroll;
+    height:200px;
 }

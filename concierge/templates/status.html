@@ -26,12 +26,10 @@ for app_name in projects[app_type].keys()|sort() %}
             <h6 class="mb-2 mt-2 mt-md-0">
               {{ log_type[0]|upper }}{{ log_type[1:] }} log
             </h6>
-            <textarea
-              class="form-control {{ log_type }}-log"
+            <div
+              class="border border-1 rounded {{ log_type }}-log"
               id="{{ app_name }}-{{ log_type }}-log"
-              rows="10"
-              readonly
-            ></textarea>
+            ></div>
           </div>
           {% endfor %}
         </div>

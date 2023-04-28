@@ -1,11 +1,12 @@
 from flask import Flask, render_template
-import datetime
+from ansi2html import Ansi2HTMLConverter
 import json
 import subprocess
 import os
 import sys
 
 app = Flask(__name__)
+conv = Ansi2HTMLConverter()
 
 projects_file = open("../projects.json")
 projects = json.load(projects_file)
@@ -26,15 +27,15 @@ def logs():
 
             logs[app_name] = {
                 "deploy": "",
-                "app": subprocess.check_output(
+                "app": conv.convert(subprocess.check_output(
                     ["bash", "scripts/app_log.sh", app_name],
                     encoding="utf8",
-                ),
+                )),
             }
 
             if os.path.isfile(deploy_log_filename):
                 f = open(deploy_log_filename, "r")
-                logs[app_name]["deploy"] = f.read()
+                logs[app_name]["deploy"] = conv.convert(f.read())
 
     return logs
 
