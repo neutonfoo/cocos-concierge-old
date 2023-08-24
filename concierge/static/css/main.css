@@ -5,6 +5,9 @@
 
 div.app-log,
 div.deploy-log {
+    z-index:1;
+    background-color: #FFF;
+    resize: both;
     font-size: 10pt;
     font-family: monospace;
     overflow-y: scroll;

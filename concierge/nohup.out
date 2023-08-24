@@ -1,0 +1,39 @@
+ * Serving Flask app 'app'
+ * Debug mode: on
+Address already in use
+Port 3030 is in use by another program. Either identify and stop that program, or start the server with a different port.
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on https://127.0.0.1:3030
+ * Running on https://134.122.19.77:3030
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 211-089-953
+174.216.180.198 - - [23/Aug/2023 20:02:58] "GET / HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:02:58] "GET /static/css/main.css HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:02:58] "GET /static/js/status.js HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:02:59] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+174.216.180.198 - - [23/Aug/2023 20:02:59] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:01] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:03] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:06] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:08] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:10] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:12] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:14] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:16] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:18] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:20] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:22] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:24] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:26] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:28] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:30] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:32] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:34] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:36] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:38] "GET /logs HTTP/1.1" 200 -
+174.216.180.198 - - [23/Aug/2023 20:03:40] "GET /logs HTTP/1.1" 200 -

@@ -16,7 +16,7 @@ cd $PROJECTS_ROOT
 } 2>/dev/null
 
 if [[ -d "$app_name" ]]; then
-    docker compose -f "$app_name/docker-compose.yml" logs --no-log-prefix --tail 500
+    docker compose -f "$app_name/docker-compose.yml" logs --no-log-prefix --tail 2000
 fi
 
 exit 0

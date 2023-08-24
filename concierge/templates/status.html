@@ -11,61 +11,39 @@ for app_name in projects[app_type].keys()|sort() %}
     <div class="card" id="{{ app_name }}">
       <div class="card-header">
         {% if app_type == "services" %}
-        <a
-          href="https://cocoshouse.xyz/{{ app_name }}"
-          class="link-primary"
-          target="_blank"
-          >{{ app_name }}</a
-        >
+        <a href="https://cocoshouse.xyz/{{ app_name }}" class="link-primary" target="_blank">{{ app_name }}</a>
         {% else %} {{ app_name }} {% endif %}
       </div>
       <div class="card-body">
         <div class="row">
           {% for log_type in ['app', 'deploy'] %}
-          <div class="col-12 col-md-6">
-            <h6 class="mb-2 mt-2 mt-md-0">
+          <div id="{{ app_name }}-{{log_type}}-logs" class="col-12{% if log_type == "deploy" %} collapse{% endif %}">
+            <h6 class="mb-2 mt-2{% if log_type == "app" %} mt-md-0{% endif %}">
               {{ log_type[0]|upper }}{{ log_type[1:] }} log
             </h6>
-            <div
-              class="border border-1 rounded {{ log_type }}-log"
-              id="{{ app_name }}-{{ log_type }}-log"
-            ></div>
+            <div class="border border-1 rounded {{ log_type }}-log" id="{{ app_name }}-{{ log_type }}-log"></div>
           </div>
           {% endfor %}
         </div>
       </div>
       <div class="card-footer text-body-secondary">
-        <a
-          href="https://github.com/{{ projects[app_type][app_name] }}"
-          class="card-link link-secondary"
-          target="_blank"
-        >
-          GitHub</a
-        >
-        <button
-          type="button"
-          class="card-link btn btn-sm btn-success restart-button"
-          data-apptype="{{ app_type[:-1] }}"
-          data-appname="{{ app_name }}"
-        >
+        <a href="https://github.com/{{ projects[app_type][app_name] }}" class="card-link link-secondary"
+          target="_blank">
+          GitHub</a>
+        <button type="button" class="card-link btn btn-sm btn-success restart-button" data-apptype="{{ app_type[:-1] }}"
+          data-appname="{{ app_name }}">
           Restart
         </button>
-        <button
-          type="button"
-          class="card-link btn btn-sm btn-warning rebuild-button"
-          data-apptype="{{ app_type[:-1] }}"
-          data-appname="{{ app_name }}"
-        >
+        <button type="button" class="card-link btn btn-sm btn-warning rebuild-button" data-apptype="{{ app_type[:-1] }}"
+          data-appname="{{ app_name }}">
           Rebuild
         </button>
-        <button
-          type="button"
-          class="card-link btn btn-sm btn-danger powerdown-button"
-          data-apptype="{{ app_type[:-1] }}"
-          data-appname="{{ app_name }}"
-        >
+        <button type="button" class="card-link btn btn-sm btn-danger powerdown-button"
+          data-apptype="{{ app_type[:-1] }}" data-appname="{{ app_name }}">
           Power Down
         </button>
+        <button type="button" class="card-link btn btn-sm btn-info" data-bs-toggle="collapse"
+          href="#{{ app_name }}-deploy-logs">Deploy Logs</button>
       </div>
     </div>
   </div>

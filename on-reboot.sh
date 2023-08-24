@@ -8,6 +8,10 @@ cd "$PROJECTS_ROOT/cocos-concierge"
 docker compose down
 
 # Reboot concierge
+
+# Stop any previous coco's concierge
+kill -9 $(pgrep python)
+
 cd concierge
 source env/bin/activate
 nohup python app.py >/dev/null 2>&1 &
@@ -27,9 +31,11 @@ DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
 cd $PROJECTS_ROOT
 
 for daemon in $DAEMONS; do
-    docker compose -f "$daemon/docker-compose.yml" up -d --remove-orphans
+    zsh cocos-concierge/concierge/scripts/restart.sh $daemon
+    # docker compose -f "$daemon/docker-compose.yml" up -d --remove-orphans
 done
 
 for service in $SERVICES; do
-    docker compose -f "$service/docker-compose.yml" up -d --remove-orphans
+    zsh cocos-concierge/concierge/scripts/restart.sh $service
+    # docker compose -f "$service/docker-compose.yml" up -d --remove-orphans
 done

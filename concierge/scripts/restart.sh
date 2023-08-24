@@ -20,9 +20,9 @@ if [[ -d "$app_name" ]]; then
     docker compose -f "$app_name/docker-compose.yml" down
 
     if [[ $action -eq "0" ]]; then
-        docker compose -f "$app_name/docker-compose.yml" up -d
+        docker compose -f "$app_name/docker-compose.yml" up -d --remove-orphans
     elif [[ $action -eq "1" ]]; then
-        docker compose -f "$app_name/docker-compose.yml" up -d --build
+        docker compose -f "$app_name/docker-compose.yml" up -d --remove-orphans --build
     fi
 fi
 
