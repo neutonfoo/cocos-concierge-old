@@ -16,10 +16,12 @@ cd concierge
 source env/bin/activate
 nohup python app.py >/dev/null 2>&1 &
 deactivate
-cd ../
+
+cd "$PROJECTS_ROOT/cocos-concierge"
 
 # Start reverse proxy + certbot
-docker compose up -d --remove-orphans
+reverse-proxy/nginx-conf-generator.sh
+docker compose up -d --build --force-recreate
 
 # Start all services and daemons
 PROJECTS_JSON=$(cat "projects.json")
@@ -31,11 +33,9 @@ DAEMONS=$(echo $PROJECTS_JSON | jq -r '.daemons|keys[]')
 cd $PROJECTS_ROOT
 
 for daemon in $DAEMONS; do
-    zsh cocos-concierge/concierge/scripts/restart.sh $daemon
-    # docker compose -f "$daemon/docker-compose.yml" up -d --remove-orphans
+    cocos-concierge/concierge/scripts/restart.sh $daemon
 done
 
 for service in $SERVICES; do
-    zsh cocos-concierge/concierge/scripts/restart.sh $service
-    # docker compose -f "$service/docker-compose.yml" up -d --remove-orphans
+    cocos-concierge/concierge/scripts/restart.sh $service
 done
